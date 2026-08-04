@@ -1,0 +1,190 @@
+/* Sem perspective/transform aqui: qualquer um dos dois criaria um containing
+   block e quebraria o position:fixed que o ScrollTrigger usa para pinar o palco. */
+.hero { padding: 0; }
+
+.stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* svh (e não vh/dvh) mantém a altura estável quando a barra do navegador
+     mobile some, evitando recalcular o pin no meio da animação. */
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: 116px 0 64px;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+/* ---------- Vídeo de fundo ---------- */
+
+.video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Camada própria na GPU: o decode do vídeo não repinta o texto por cima. */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Véu que garante leitura do texto no começo e vai clareando conforme o vídeo
+   assume o protagonismo. Só a opacidade anima — composta pela GPU. */
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.82;
+  will-change: opacity;
+  background:
+    radial-gradient(ellipse 65% 55% at 50% 45%, rgba(6, 8, 7, 0.55), transparent 78%),
+    linear-gradient(
+      to bottom,
+      rgba(6, 8, 7, 0.92) 0%,
+      rgba(6, 8, 7, 0.55) 42%,
+      rgba(6, 8, 7, 0.72) 78%,
+      var(--bg) 100%
+    );
+}
+
+/* ---------- Texto central ---------- */
+
+.copy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  /* Valor inicial explícito: dá ao GSAP um ponto de partida limpo para interpolar. */
+  filter: blur(0px);
+  will-change: transform, opacity, filter;
+}
+
+.title {
+  font-weight: 800;
+  font-size: clamp(44px, 8vw, 92px);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  text-shadow: 0 2px 40px rgba(6, 8, 7, 0.55);
+}
+
+.subtitle {
+  max-width: 46ch;
+  margin-top: 28px;
+  font-size: 18px;
+  color: var(--ink-dim);
+  text-shadow: 0 1px 24px rgba(6, 8, 7, 0.7);
+}
+
+.ctas {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.linkCta {
+  font-weight: 600;
+  color: var(--ink);
+  border-bottom: 1px solid var(--border-strong);
+  padding-bottom: 3px;
+  transition: color 0.3s, border-color 0.3s;
+}
+.linkCta:hover { color: var(--mint); border-color: var(--mint); }
+
+.social {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 44px;
+  font-size: 14px;
+  color: var(--ink-dim);
+}
+.social strong { color: var(--ink); font-weight: 800; }
+
+.avatars { display: flex; }
+.avatars span {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--surface-2), #1a2b21);
+  border: 2px solid var(--bg);
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--mint);
+  margin-left: -10px;
+  position: relative;
+}
+.avatars span:first-child { margin-left: 0; }
+
+/* ---------- Progresso da transformação ---------- */
+
+.progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  height: 2px;
+  background: rgba(124, 245, 194, 0.12);
+}
+
+.fill {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--mint-dim), var(--mint));
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}
+
+/* ---------- Faixa de logos (fora do palco pinado) ---------- */
+
+.logosBlock { position: relative; z-index: 1; padding: 96px 0 24px; }
+
+.logoItem {
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: 0.04em;
+  color: var(--ink-dim);
+  opacity: 0.55;
+  transition: opacity 0.3s, color 0.3s;
+}
+.logoItem:hover { opacity: 1; color: var(--mint); }
+
+.logosCaption {
+  text-align: center;
+  font-size: 13px;
+  color: var(--mint-dim);
+  margin: 28px 0;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* ---------- Responsivo ---------- */
+
+/* O vídeo é 16:9. Em qualquer viewport mais estreito que isso, o `cover` amplia
+   pela altura e sobra largura fora da tela — no celular chega a ~74% cortada.
+   Centralizado, o recorte cai no teclado e nas mãos; o aluno fica em ~71% da
+   largura do quadro (posição estável ao longo de todo o vídeo), então puxamos o
+   enquadramento para a direita para trazer o rosto dele para dentro da tela.
+   Acima de 16:9 não há corte horizontal e a regra vira no-op. */
+@media (max-aspect-ratio: 16 / 9) {
+  .video { object-position: 75% center; }
+}
+
+@media (max-width: 720px) {
+  .stage { padding: 100px 0 56px; }
+  .subtitle { font-size: 16px; margin-top: 22px; }
+  .ctas { margin-top: 32px; gap: 18px; }
+  .social { margin-top: 32px; }
+  .logosBlock { padding: 72px 0 16px; }
+}
