@@ -9,7 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tabler/icons-react": "^3.46.0",
     "framer-motion": "^11.11.17",
     "gsap": "^3.12.5",
     "lenis": "^1.1.14",
