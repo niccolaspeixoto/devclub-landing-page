@@ -1,0 +1,87 @@
+/* Fundo opaco é obrigatório: enquanto pinada a seção fica position:fixed, e uma
+   seção transparente deixaria o conteúdo de trás (o vídeo do herói) vazar por cima. */
+.section { overflow: hidden; background: var(--bg); }
+
+.hint {
+  font-size: 13px;
+  color: var(--mint-dim);
+  margin-top: -40px;
+  margin-bottom: 32px;
+  letter-spacing: 0.1em;
+}
+
+.viewport {
+  cursor: grab;
+  padding-left: max(24px, calc((100vw - var(--container)) / 2));
+}
+
+.viewportPinned { cursor: default; }
+
+.track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  padding-right: 48px;
+  will-change: transform;
+}
+
+.card {
+  position: relative;
+  width: 260px;
+  min-height: 280px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.5s var(--ease-out), border-color 0.5s var(--ease-out), background 0.5s var(--ease-out);
+  user-select: none;
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: var(--border-strong);
+  background: var(--surface-2);
+}
+
+.icone {
+  font-size: 26px;
+  color: var(--mint);
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: rgba(124, 245, 194, 0.08);
+  border: 1px solid var(--border);
+  display: grid;
+  place-items: center;
+  margin-bottom: auto;
+}
+
+.tag {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--mint-dim);
+  margin-top: 40px;
+}
+
+.card h3 {
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.25;
+  margin-top: 8px;
+}
+
+.arrow {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  color: var(--mint);
+  font-size: 18px;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.4s var(--ease-out), transform 0.4s var(--ease-out);
+}
+.card:hover .arrow { opacity: 1; transform: translateX(0); }
