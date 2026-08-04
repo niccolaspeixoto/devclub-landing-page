@@ -1,0 +1,92 @@
+.section { background: var(--surface); border-block: 1px solid var(--border); }
+
+.chart {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(28px, 7vw, 90px);
+  min-height: 340px;
+  border-bottom: 1px solid var(--border-strong);
+  padding-bottom: 0;
+  max-width: 760px;
+  margin-inline: auto;
+}
+
+.group { display: flex; flex-direction: column; align-items: center; }
+
+.bars { display: flex; align-items: flex-end; gap: 12px; }
+
+.barCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.valor {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.valorMint { color: var(--mint); }
+
+.barBrasil, .barExterior {
+  width: clamp(34px, 5vw, 52px);
+  border-radius: 10px 10px 0 0;
+  display: block;
+}
+
+.barBrasil {
+  background: linear-gradient(180deg, var(--mint-dim), rgba(94, 122, 108, 0.3));
+}
+.barExterior {
+  background: linear-gradient(180deg, var(--mint), rgba(124, 245, 194, 0.35));
+  box-shadow: 0 0 34px rgba(124, 245, 194, 0.16);
+}
+
+.nivel {
+  margin-top: 16px;
+  padding-bottom: 18px;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+}
+
+.legenda {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  margin-top: 28px;
+  font-size: 13px;
+  color: var(--ink-dim);
+  flex-wrap: wrap;
+}
+.legenda span { display: flex; align-items: center; gap: 8px; }
+.dotBr, .dotEx { width: 12px; height: 12px; border-radius: 4px; }
+.dotBr { background: var(--mint-dim); }
+.dotEx { background: var(--mint); }
+
+.fonte { text-align: center; font-size: 11px; color: var(--mint-dim); margin-top: 12px; }
+
+@media (max-width: 600px) {
+  /* Nas colunas o rótulo de valor é mais largo que a barra — em telas estreitas
+     essa largura extra (multiplicada por 6 colunas) é o que estourava a tela.
+     Deixar o texto quebrar linha em vez de forçar nowrap resolve sem mexer nos
+     valores em si. */
+  .chart { gap: 10px; min-height: 220px; }
+  .bars { gap: 6px; }
+  .barBrasil, .barExterior { width: clamp(20px, 8vw, 30px); }
+
+  .valor {
+    font-size: 10px;
+    white-space: normal;
+    max-width: 44px;
+    text-align: center;
+    line-height: 1.15;
+  }
+
+  .nivel { font-size: 13px; margin-top: 10px; padding-bottom: 12px; }
+  .legenda { gap: 16px; font-size: 12px; }
+}

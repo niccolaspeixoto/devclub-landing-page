@@ -1,0 +1,95 @@
+.section { background: var(--surface); border-block: 1px solid var(--border); overflow: hidden; }
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 72px;
+  align-items: center;
+}
+
+.list li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-weight: 600;
+  font-size: 17px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.list li span { color: var(--mint); font-weight: 800; }
+
+.stage { position: relative; perspective: 1100px; }
+
+.stageGlow {
+  position: absolute;
+  inset: 20% -10% -10%;
+  background: radial-gradient(ellipse 60% 50% at 50% 60%, rgba(124, 245, 194, 0.1), transparent 70%);
+  filter: blur(24px);
+  z-index: -1;
+}
+
+.mock {
+  background: var(--bg);
+  border: 1px solid var(--border-strong);
+  border-radius: 22px;
+  padding: 26px;
+  transform-style: preserve-3d;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.55);
+}
+
+.mock header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.mock header p { font-weight: 800; font-size: 18px; }
+.mock header em { font-family: var(--font-serif); font-style: italic; color: var(--mint); }
+
+.streak {
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(124, 245, 194, 0.1);
+  border: 1px solid var(--border);
+  color: var(--mint);
+  border-radius: 99px;
+  padding: 6px 14px;
+}
+
+.mockGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.tile, .tileWide {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px;
+}
+.tileWide { grid-column: 1 / -1; }
+
+.tileLabel {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mint-dim);
+}
+.tileValue { font-weight: 800; font-size: 20px; margin-top: 4px; }
+.tileHint { font-size: 13px; color: var(--ink-dim); margin-top: 6px; }
+
+.bar {
+  height: 6px;
+  background: var(--bg);
+  border-radius: 99px;
+  margin-top: 14px;
+  overflow: hidden;
+}
+.bar span { display: block; height: 100%; background: var(--mint); border-radius: 99px; }
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; gap: 48px; }
+}

@@ -1,0 +1,122 @@
+/* Fundo opaco é obrigatório: enquanto pinada a seção fica position:fixed, e uma
+   seção transparente deixaria o conteúdo de trás vazar por cima. */
+.section { padding-top: 104px; overflow: hidden; background: var(--bg); }
+
+.hint {
+  text-align: center;
+  font-size: 13px;
+  color: var(--mint-dim);
+  letter-spacing: 0.1em;
+  margin-top: -18px;
+  margin-bottom: 14px;
+}
+
+.stage {
+  display: flex;
+  justify-content: center;
+  padding: 4px 0 10px;
+}
+
+.stack {
+  position: relative;
+  height: min(52vh, 460px);
+  aspect-ratio: 9 / 16;
+}
+
+.card {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: 26px;
+  overflow: hidden;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.55);
+  transform-origin: center bottom;
+  will-change: transform, opacity;
+  transition: border-color 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
+}
+
+.card:hover {
+  border-color: var(--mint);
+  box-shadow: 0 34px 84px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(124, 245, 194, 0.2);
+}
+
+/* Separado do .card (cujo transform é controlado pelo GSAP na pilha) para que
+   o hover possa animar livremente sem brigar com a posição/rotação da carta. */
+.cardInner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  transition: transform 0.45s var(--ease-out);
+}
+.card:hover .cardInner { transform: translateY(-10px) scale(1.015); }
+
+.fakeUi {
+  position: absolute;
+  inset: 24px 24px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  opacity: 0.5;
+  transition: opacity 0.45s var(--ease-out);
+}
+.fakeUi span {
+  height: 12px;
+  border-radius: 6px;
+  background: rgba(124, 245, 194, 0.12);
+}
+.fakeUi span:nth-child(1) { width: 45%; }
+.fakeUi span:nth-child(2) { width: 80%; }
+.fakeUi span:nth-child(3) { width: 62%; }
+
+.card:hover .fakeUi { opacity: 0.9; }
+
+.overlay {
+  padding: 26px;
+  width: 100%;
+  background: linear-gradient(transparent, rgba(6, 8, 7, 0.94) 45%);
+}
+
+.tech {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--mint);
+}
+.overlay h3 { font-size: 20px; font-weight: 800; margin-top: 8px; line-height: 1.3; }
+
+.ver {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--mint);
+  margin-top: 12px;
+  transition: transform 0.4s var(--ease-out);
+}
+.card:hover .ver { transform: translateX(4px); }
+
+.caption { text-align: center; font-size: 12px; color: var(--mint-dim); margin-top: 20px; }
+
+/* Fallback estático para prefers-reduced-motion: sem pin nem animação, todos os projetos legíveis */
+.staticList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.staticCard {
+  position: relative;
+  min-height: 300px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  transition: transform 0.4s var(--ease-out), border-color 0.4s var(--ease-out);
+}
+.staticCard:hover { transform: translateY(-6px); border-color: var(--border-strong); }
+
+@media (max-width: 560px) {
+  .stack { height: min(48vh, 400px); }
+}

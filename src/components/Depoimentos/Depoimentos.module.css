@@ -1,0 +1,79 @@
+.section { background: var(--surface); border-block: 1px solid var(--border); }
+
+.gridA {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 26px;
+  transition: transform 0.5s var(--ease-out), border-color 0.5s;
+}
+.card:hover { transform: translateY(-5px); border-color: var(--border-strong); }
+
+.player {
+  position: relative;
+  height: 150px;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 30% 40%, rgba(124, 245, 194, 0.12), transparent 60%),
+    var(--surface-2);
+  border: 1px solid var(--border);
+  margin-bottom: 18px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.play {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--mint);
+  color: var(--mint-deep);
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  padding-left: 4px;
+  transition: transform 0.4s var(--ease-out), box-shadow 0.4s;
+}
+.player:hover .play {
+  transform: scale(1.12);
+  box-shadow: 0 0 0 12px rgba(124, 245, 194, 0.12);
+}
+
+.card blockquote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.card figcaption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--surface-2), #1a2b21);
+  border: 1px solid var(--border-strong);
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--mint);
+}
+
+.card strong { font-size: 14px; font-weight: 800; display: block; }
+.card figcaption p { font-size: 12px; color: var(--mint-dim); }

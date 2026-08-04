@@ -1,0 +1,73 @@
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.card {
+  position: relative;
+  height: min(50vh, 440px);
+  aspect-ratio: 9 / 16;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  transition: transform 0.5s var(--ease-out), border-color 0.5s;
+}
+.card:hover { transform: translateY(-6px); border-color: var(--mint); }
+
+.foto {
+  position: absolute;
+  inset: 0;
+  background-color: var(--surface-2);
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s var(--ease-out);
+}
+.card:hover .foto { transform: scale(1.06); }
+
+.overlay {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 20px;
+  background: linear-gradient(transparent, rgba(6, 8, 7, 0.92) 55%);
+}
+.overlay h3 { font-size: 17px; font-weight: 800; color: var(--ink); }
+.overlay p { font-size: 12px; color: var(--mint); margin-top: 4px; }
+
+@media (max-width: 560px) {
+  .card { height: min(48vh, 400px); }
+}
+
+.wall { margin-top: 72px; text-align: center; }
+
+.wallLabel {
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--mint-dim);
+  margin-bottom: 20px;
+}
+
+.names {
+  font-size: clamp(20px, 3.4vw, 32px);
+  font-weight: 800;
+  line-height: 1.7;
+  max-width: 900px;
+  margin-inline: auto;
+  color: var(--ink-dim);
+}
+
+.names span {
+  display: inline-block;
+  transition: color 0.35s var(--ease-out);
+  cursor: default;
+}
+.names span:hover {
+  color: var(--mint);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+}
+.names em { color: var(--border-strong); font-style: normal; }

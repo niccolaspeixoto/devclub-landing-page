@@ -1,0 +1,39 @@
+.list {
+  max-width: 760px;
+  margin-inline: auto;
+}
+
+.item {
+  border-bottom: 1px solid var(--border);
+}
+
+.trigger {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  text-align: left;
+  padding: 26px 4px;
+  font-size: 18px;
+  font-weight: 800;
+  transition: color 0.3s;
+}
+.trigger:hover { color: var(--mint); }
+
+.icon {
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--mint);
+  min-width: 28px;
+  text-align: center;
+  display: inline-block;
+}
+
+.answerWrap { overflow: hidden; }
+
+.answer {
+  color: var(--ink-dim);
+  padding: 0 4px 26px;
+  max-width: 62ch;
+}
