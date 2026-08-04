@@ -1,0 +1,165 @@
+/* Lista à esquerda, notebook ocupando a folga à direita.
+   Sem align-items: a coluna do vídeo estica até a altura da lista, e é essa
+   sobra que dá curso ao position: sticky lá dentro. */
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 44px;
+}
+
+/* --spine: eixo X da linha do tempo (entre o número e o ícone).
+   --node-y: centro do ícone dentro do item — onde cada marcador fica. */
+.timeline {
+  position: relative;
+  --spine: 58px;
+  --node-y: 60px;
+}
+
+/* Palco do notebook: o vídeo gruda na viewport enquanto a lista rola por baixo,
+   e a tampa abre no ritmo do mesmo progresso que preenche a linha do tempo. */
+.palco { position: relative; }
+
+.sticky {
+  position: sticky;
+  top: clamp(96px, 17vh, 160px);
+  display: grid;
+  place-items: center;
+  /* espaço já reservado: o vídeo entra depois, sem empurrar nada */
+  min-height: min(64vh, 569px);
+  /* position: sticky abre um stacking context, que isola o mix-blend-mode do
+     vídeo. Este fundo é o que ele passa a enxergar — por isso precisa ser
+     exatamente a cor da página, senão o preto do render não some. */
+  background: var(--bg);
+}
+
+.notebook {
+  position: relative; /* fica na frente do brilho */
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  max-height: 64vh;
+  object-fit: contain;
+  /* O render tem fundo preto puro: no screen, preto não altera o que está atrás,
+     então o retângulo do vídeo simplesmente desaparece na página. Se o preto do
+     render não for exato, o screen ainda assim só clareia de leve, em vez de
+     estampar um retângulo opaco. */
+  mix-blend-mode: screen;
+  /* Beirada suave: se sobrou alguma vinheta, ela se dissolve em vez de virar
+     uma quina visível. */
+  -webkit-mask-image: radial-gradient(ellipse 92% 92% at 50% 50%, #000 82%, transparent 100%);
+  mask-image: radial-gradient(ellipse 92% 92% at 50% 50%, #000 82%, transparent 100%);
+}
+
+.brilho {
+  position: absolute;
+  width: 78%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(124, 245, 194, 0.13), transparent 68%);
+  filter: blur(28px);
+  pointer-events: none;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+  padding: 34px 8px;
+}
+
+/* Trilho vertical: base apagada + preenchimento que acompanha o scroll */
+.trilho {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--spine);
+  width: 2px;
+  transform: translateX(-50%);
+  background: var(--border);
+  border-radius: 2px;
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 40px, #000 calc(100% - 40px), transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 40px, #000 calc(100% - 40px), transparent);
+}
+
+.preenchimento {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(180deg, rgba(124, 245, 194, 0.35), var(--mint));
+  border-radius: 2px;
+  box-shadow: 0 0 18px rgba(124, 245, 194, 0.28);
+}
+
+/* Ponto luminoso na ponta do preenchimento */
+.cabeca {
+  position: absolute;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--mint);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 16px 4px rgba(124, 245, 194, 0.45);
+}
+
+/* Marcador de cada item, alinhado ao centro do ícone */
+.marcador {
+  position: absolute;
+  left: var(--spine);
+  top: var(--node-y);
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border-radius: 50%;
+}
+
+.num {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 20px;
+  color: var(--mint-dim);
+  min-width: 36px;
+  padding-top: 4px;
+}
+
+.icone {
+  font-size: 22px;
+  color: var(--mint);
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  border-radius: 14px;
+  background: rgba(124, 245, 194, 0.07);
+  border: 1px solid var(--border);
+  display: grid;
+  place-items: center;
+  transition: transform 0.5s var(--ease-out), background 0.5s;
+}
+.item:hover .icone { transform: rotate(-8deg) scale(1.08); background: rgba(124, 245, 194, 0.14); }
+
+.item h3 { font-size: 20px; font-weight: 800; }
+.item p { color: var(--ink-dim); margin-top: 6px; max-width: 54ch; }
+
+.line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border-strong), transparent);
+  transform-origin: left;
+}
+
+/* Sem folga ao lado da lista: o notebook sai de cena (o JSX nem o renderiza) */
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; gap: 0; }
+  .palco { display: none; }
+}
+
+@media (max-width: 600px) {
+  /* sem o número, a linha vai para a borda esquerda e o conteúdo abre espaço */
+  .timeline { --spine: 11px; }
+  .item { gap: 16px; flex-wrap: wrap; padding-left: 32px; }
+  .num { display: none; }
+}
